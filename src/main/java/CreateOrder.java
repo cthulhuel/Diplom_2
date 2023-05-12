@@ -1,28 +1,30 @@
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
-public class EditUser {
+public class CreateOrder {
 
-    private static final String USER = "/api/auth/user";
-    private static final String LOGIN = "/api/auth/login";
+    private static final String ORDER = "/api/orders";
+    private static final String INGREDIENTS = "/api/ingredients";
 
 
-    public Response getDataUser(Object body) {
+    public Response getIngredients(Object body) {
         return given()
                 .header("Content-type", "application/json")
                 .and()
                 .body(body)
                 .when()
-                .post(LOGIN);
+                .get(INGREDIENTS);
     }
 
-    public Response getEditDataUserWithoutAuth(Object body) {
+    public Response getCreateOrder(Object body) {
         return given()
                 .header("Content-type", "application/json")
                 .and()
                 .body(body)
                 .when()
-                .patch(USER);
+                .post(ORDER);
     }
+
+
 
 }
