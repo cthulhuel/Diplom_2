@@ -16,7 +16,7 @@ public class TestCreateUser {
     @DisplayName("Create unique user")
     public void testCreateUniqueUser() {
         CreateUser createUser = new CreateUser();
-        Response correctCreateUniqueUser = createUser.getCreateUser(new User("eliseev_2333@gmail.com","qwerty124", "john"));
+        Response correctCreateUniqueUser = createUser.getCreateUser(new User("eliseev_2345@gmail.com","qwerty124", "john"));
         correctCreateUniqueUser.then().statusCode(200);
     }
 
