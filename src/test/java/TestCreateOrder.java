@@ -3,9 +3,13 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 
 public class TestCreateOrder {
+
+    public String accessToken;
+    private static final String ORDER = "/api/orders";
 
     @Before
     public void setUp() {
@@ -35,6 +39,45 @@ public class TestCreateOrder {
         Response getCreateOrderWithInvalidHash = createOrder.getCreateOrder(" { \"ingredients\": [\"60c0c5a71d1f82001bdaaa6\",\"60c0c5a71d1f82001bdaaa6\"] } ");
         getCreateOrderWithInvalidHash.then().statusCode(500);
     }
+
+    @Test
+    @DisplayName("Create order with auth")
+    public void testCreateOrderWithAuth() {
+
+        String body = " { \"ingredients\": [\"61c0c5a71d1f82001bdaaa6d\",\"61c0c5a71d1f82001bdaaa6f\"] } ";
+
+        LoginUser loginUser = new LoginUser();
+        Response correctLoginWithExistingUser = loginUser.getLoginUser(new User("eliseev_23@gmail.com","qwerty124", "john"));
+        accessToken = correctLoginWithExistingUser.path("accessToken");
+
+        Response getCreateOrderWithAuth = given ()
+                .header("Content-type", "application/json")
+                .header("Authorization", accessToken)
+                .and()
+                .body(body)
+                .when()
+                .post(ORDER);
+
+        getCreateOrderWithAuth.then().statusCode(200).and().assertThat().body("success", is(true));
+
+    }
+
+    @Test
+    @DisplayName("Create order without auth")
+    public void testCreateOrderWithoutAuth() {
+
+        String body = " { \"ingredients\": [\"61c0c5a71d1f82001bdaaa6d\",\"61c0c5a71d1f82001bdaaa6f\"] } ";
+
+        LoginUser loginUser = new LoginUser();
+        Response correctLoginWithExistingUser = loginUser.getLoginUser(new User("eliseev_23@gmail.com","qwerty124", "john"));
+
+        CreateOrder createOrder = new CreateOrder();
+        Response getCreateOrderWithoutAuth = createOrder.getCreateOrder(" { \"ingredients\": [\"61c0c5a71d1f82001bdaaa6d\",\"61c0c5a71d1f82001bdaaa6f\"] } ");
+
+        getCreateOrderWithoutAuth.then().statusCode(200).and().assertThat().body("success", is(true));
+
+    }
+
 
 
 }
