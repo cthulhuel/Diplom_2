@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
+import static org.apache.http.HttpStatus.*;
 
 public class TestUserOrder {
 
@@ -22,7 +23,7 @@ public class TestUserOrder {
     public void testCreateOrderWithoutAuth() {
         UserOrder userOrder = new UserOrder();
         Response getCreateOrderWithoutAuth = userOrder.getUserOrder("");
-        getCreateOrderWithoutAuth.then().statusCode(401).and().assertThat().body("success", is(false), "message", is("You should be authorised"));
+        getCreateOrderWithoutAuth.then().statusCode(SC_UNAUTHORIZED).and().assertThat().body("success", is(false), "message", is("You should be authorised"));
     }
 
     @Test
@@ -39,11 +40,8 @@ public class TestUserOrder {
                 .and()
                 .get(ORDER);
 
-        getCreateOrderWithAuth.then().statusCode(200).and().assertThat().body("success", is(true));
+        getCreateOrderWithAuth.then().statusCode(SC_OK).and().assertThat().body("success", is(true));
 
     }
-
-
-
 
 }

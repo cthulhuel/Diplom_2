@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
+import static org.apache.http.HttpStatus.*;
 
 public class TestEditUser {
 
@@ -43,7 +44,7 @@ public class TestEditUser {
     public void testEditDataUserWithoutAuth() {
         EditUser editUser = new EditUser();
         Response getDataUserWithoutAuth = editUser.getEditDataUserWithoutAuth(new User("eliseev_23@gmail.com","qwerty124", "john"));
-        getDataUserWithoutAuth.then().statusCode(401).and().assertThat().body("success", is(false), "message", is("You should be authorised"));
+        getDataUserWithoutAuth.then().statusCode(SC_UNAUTHORIZED).and().assertThat().body("success", is(false), "message", is("You should be authorised"));
     }
 
 }

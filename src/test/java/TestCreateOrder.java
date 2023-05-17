@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
+import static org.apache.http.HttpStatus.*;
 
 public class TestCreateOrder {
 
@@ -21,7 +22,7 @@ public class TestCreateOrder {
     public void testCreateOrderWithoutIngredients() {
         CreateOrder createOrder = new CreateOrder();
         Response getCreateOrderWithoutIngredients = createOrder.getCreateOrder(" { \"ingredients\": [] } ");
-        getCreateOrderWithoutIngredients.then().statusCode(400).and().assertThat().body("success", is(false), "message", is("Ingredient ids must be provided"));
+        getCreateOrderWithoutIngredients.then().statusCode(SC_BAD_REQUEST).and().assertThat().body("success", is(false), "message", is("Ingredient ids must be provided"));
     }
 
     @Test
@@ -29,7 +30,7 @@ public class TestCreateOrder {
     public void testCreateOrderWithIngredients() {
         CreateOrder createOrder = new CreateOrder();
         Response getCreateOrderWithIngredients = createOrder.getCreateOrder(" { \"ingredients\": [\"61c0c5a71d1f82001bdaaa6d\",\"61c0c5a71d1f82001bdaaa6f\"] } ");
-        getCreateOrderWithIngredients.then().statusCode(200).and().assertThat().body("success", is(true), "name", is("Бессмертный флюоресцентный бургер"));
+        getCreateOrderWithIngredients.then().statusCode(SC_OK).and().assertThat().body("success", is(true), "name", is("Бессмертный флюоресцентный бургер"));
     }
 
     @Test
@@ -37,7 +38,7 @@ public class TestCreateOrder {
     public void testCreateOrderWithInvalidHash() {
         CreateOrder createOrder = new CreateOrder();
         Response getCreateOrderWithInvalidHash = createOrder.getCreateOrder(" { \"ingredients\": [\"60c0c5a71d1f82001bdaaa6\",\"60c0c5a71d1f82001bdaaa6\"] } ");
-        getCreateOrderWithInvalidHash.then().statusCode(500);
+        getCreateOrderWithInvalidHash.then().statusCode(SC_INTERNAL_SERVER_ERROR);
     }
 
     @Test
@@ -58,7 +59,7 @@ public class TestCreateOrder {
                 .when()
                 .post(ORDER);
 
-        getCreateOrderWithAuth.then().statusCode(200).and().assertThat().body("success", is(true));
+        getCreateOrderWithAuth.then().statusCode(SC_OK).and().assertThat().body("success", is(true));
 
     }
 
@@ -74,10 +75,8 @@ public class TestCreateOrder {
         CreateOrder createOrder = new CreateOrder();
         Response getCreateOrderWithoutAuth = createOrder.getCreateOrder(" { \"ingredients\": [\"61c0c5a71d1f82001bdaaa6d\",\"61c0c5a71d1f82001bdaaa6f\"] } ");
 
-        getCreateOrderWithoutAuth.then().statusCode(200).and().assertThat().body("success", is(true));
+        getCreateOrderWithoutAuth.then().statusCode(SC_OK).and().assertThat().body("success", is(true));
 
     }
-
-
 
 }
