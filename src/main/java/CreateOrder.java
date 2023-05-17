@@ -25,5 +25,14 @@ public class CreateOrder {
                 .post(ORDER);
     }
 
+    public Response getResponse (String accessToken) {
+        return given ()
+                .header("Content-type", "application/json")
+                .header("Authorization", accessToken)
+                .and()
+                .body(" { \"ingredients\": [\"61c0c5a71d1f82001bdaaa6d\",\"61c0c5a71d1f82001bdaaa6f\"] } ")
+                .when()
+                .post(ORDER);
+    }
 
 }

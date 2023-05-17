@@ -12,4 +12,13 @@ public class UserOrder {
                 .get(ORDER);
     }
 
+    public Response getResponse (String accessToken) {
+
+        return given ()
+                .header("Content-type", "application/json")
+                .header("Authorization", accessToken)
+                .and()
+                .get(ORDER);
+    }
+
 }

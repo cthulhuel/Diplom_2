@@ -3,7 +3,6 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.apache.http.HttpStatus.*;
 
@@ -24,19 +23,8 @@ public class TestEditUser {
         EditUser editUser = new EditUser();
         Response getDataUserWithAuth = editUser.getDataUser(new User("eliseev_23@gmail.com","qwerty124", "john"));
         accessToken = getDataUserWithAuth.path("accessToken");
-
-        Body body = new Body("eliseev_23@gmail.com", "qwerty124", "johny");
-
-        Response editDataUserWithAuth = given ()
-                .header("Content-type", "application/json")
-                .header("Authorization", accessToken)
-                .and()
-                .body(body)
-                .when()
-                .patch(USER);
-
+        Response editDataUserWithAuth = editUser.getResponse(accessToken);
         editDataUserWithAuth.then().assertThat().body("success", is(true));
-
     }
 
     @Test

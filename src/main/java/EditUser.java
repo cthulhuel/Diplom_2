@@ -25,4 +25,17 @@ public class EditUser {
                 .patch(USER);
     }
 
+    public Response getResponse (String accessToken) {
+
+        Body body = new Body("eliseev_23@gmail.com", "qwerty124", "johny");
+
+        return given ()
+                .header("Content-type", "application/json")
+                .header("Authorization", accessToken)
+                .and()
+                .body(body)
+                .when()
+                .patch(USER);
+    }
+
 }
