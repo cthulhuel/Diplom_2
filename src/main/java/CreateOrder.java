@@ -1,3 +1,4 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
 
@@ -6,7 +7,7 @@ public class CreateOrder {
     private static final String ORDER = "/api/orders";
     private static final String INGREDIENTS = "/api/ingredients";
 
-
+    @Step("Получить список ингредиентов")
     public Response getIngredients(Object body) {
         return given()
                 .header("Content-type", "application/json")
@@ -16,6 +17,7 @@ public class CreateOrder {
                 .get(INGREDIENTS);
     }
 
+    @Step("Создать заказ")
     public Response getCreateOrder(Object body) {
         return given()
                 .header("Content-type", "application/json")
@@ -25,6 +27,7 @@ public class CreateOrder {
                 .post(ORDER);
     }
 
+    @Step("Получить токен")
     public Response getResponse (String accessToken) {
         return given ()
                 .header("Content-type", "application/json")
