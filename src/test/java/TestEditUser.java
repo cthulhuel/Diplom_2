@@ -20,11 +20,11 @@ public class TestEditUser {
     @DisplayName("Edit data user with auth")
     public void testEditDataUserWithAuth() {
 
-        String body = " { \"email\": \"eliseev_23@gmail.com\", \"password\": \"qwerty124\", \"name\": \"johny\" } ";
-
         EditUser editUser = new EditUser();
         Response getDataUserWithAuth = editUser.getDataUser(new User("eliseev_23@gmail.com","qwerty124", "john"));
         accessToken = getDataUserWithAuth.path("accessToken");
+
+        Body body = new Body("eliseev_23@gmail.com", "qwerty124", "johny");
 
         Response editDataUserWithAuth = given ()
                 .header("Content-type", "application/json")
