@@ -1,21 +1,13 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.apache.http.HttpStatus.*;
 
-public class TestUserOrder {
+public class TestUserOrder extends BaseTest {
 
     public String accessToken;
     private static final String ORDER = "/api/orders";
-
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
-    }
 
     @Test
     @DisplayName("Get user order without auth")

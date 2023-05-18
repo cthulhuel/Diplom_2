@@ -1,17 +1,10 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.apache.http.HttpStatus.*;
 
-public class TestLoginUser {
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
-    }
+public class TestLoginUser extends BaseTest {
 
     @Test
     @DisplayName("Login with existing user")

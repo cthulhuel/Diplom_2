@@ -1,20 +1,13 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.apache.http.HttpStatus.*;
 
-public class TestCreateOrder {
+public class TestCreateOrder extends BaseTest {
 
     public String accessToken;
     private static final String ORDER = "/api/orders";
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
-    }
 
     @Test
     @DisplayName("Create order without ingredients")

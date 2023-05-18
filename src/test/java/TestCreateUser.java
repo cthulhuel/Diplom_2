@@ -1,24 +1,22 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
 import static org.hamcrest.Matchers.is;
 import static org.apache.http.HttpStatus.*;
 
-public class TestCreateUser {
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "https://stellarburgers.nomoreparties.site";
-    }
+public class TestCreateUser extends BaseTest {
 
     @Test
     @DisplayName("Create unique user")
     public void testCreateUniqueUser() {
         CreateUser createUser = new CreateUser();
-        Response correctCreateUniqueUser = createUser.getCreateUser(new User("eliseev_2345@gmail.com","qwerty124", "john"));
+        Response correctCreateUniqueUser = createUser.getCreateUser(new User("eliseev_135@gmail.com","qwerty124", "john"));
+        accessToken = correctCreateUniqueUser.path("accessToken");
         correctCreateUniqueUser.then().statusCode(SC_OK);
+
+        DeleteUser deleteUser = new DeleteUser( );
+        Response correctDelete = deleteUser.getDeleteUser(accessToken);
+        correctDelete.then().statusCode(SC_ACCEPTED);
     }
 
     @Test

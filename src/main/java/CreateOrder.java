@@ -1,3 +1,4 @@
+import groovyjarjarantlr4.v4.runtime.misc.NotNull;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.given;
@@ -28,7 +29,7 @@ public class CreateOrder {
     }
 
     @Step("Получить токен")
-    public Response getResponse (String accessToken) {
+    public Response getResponse (@NotNull String accessToken) {
         return given ()
                 .header("Content-type", "application/json")
                 .header("Authorization", accessToken)
